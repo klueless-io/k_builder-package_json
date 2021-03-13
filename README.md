@@ -26,23 +26,16 @@ gem install k_builder-package_json
 
 ### Main Story
 
-As a Javascript Developer, I want to automatically configure package.json with my defaults, so I can get up and running quickly
+
 
 See all [stories](./STORIES.md)
+
 
 ## Usage
 
 See all [usage examples](./USAGE.md)
 
-### Basic Example
 
-#### Basic example
-
-Description for a basic example to be featured in the main README.MD file
-
-```ruby
-class SomeRuby; end
-```
 
 ## Development
 
@@ -52,7 +45,7 @@ Checkout the repo
 git clone klueless-io/k_builder-package_json
 ```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. 
 
 You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
