@@ -38,5 +38,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   # spec.extensions    = ['ext/k_builder_package_json/extconf.rb']
 
-  # spec.add_dependency 'tty-box',         '~> 0.5.0'
+  spec.add_dependency 'k_builder', '~> 0'
 end
