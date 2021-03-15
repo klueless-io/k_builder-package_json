@@ -1,0 +1,16 @@
+{
+  "name": "samples",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "David Cruwys <david@ideasmen.com.au> (https://appydave.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "boolbase": "^1.0.0",
+    "yallist": "^4.0.0"
+  },
+  "description": ""
+}
