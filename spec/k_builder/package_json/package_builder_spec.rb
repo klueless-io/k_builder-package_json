@@ -353,8 +353,8 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
     let(:cfg) do
       lambda { |config|
         config.target_folder = target_folder
-        config.default_package_groups
-        config.set_package_group('xmen', 'Sample Packages', multiple_packages)
+        config.package_json.default_package_groups
+        config.package_json.set_package_group('xmen', 'Sample Packages', multiple_packages)
       }
     end
 
@@ -406,8 +406,8 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
     let(:cfg) do
       lambda { |config|
         config.target_folder = target_folder
-        config.default_package_groups
-        config.set_package_group('xmen', 'Sample Packages', multiple_packages)
+        config.package_json.default_package_groups
+        config.package_json.set_package_group('xmen', 'Sample Packages', multiple_packages)
       }
     end
 
