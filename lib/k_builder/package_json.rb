@@ -2,6 +2,7 @@
 
 require 'k_builder'
 require 'k_builder/package_json/version'
+require 'k_builder/package_json/configuration'
 require 'k_builder/package_json/package_builder'
 
 module KBuilder
