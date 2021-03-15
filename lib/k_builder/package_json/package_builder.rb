@@ -257,13 +257,18 @@ module KBuilder
 
       # private
 
-      # def get_group(key)
-      #   group = context.package_groups[key]
+      # This is all wrong, but useful for now
+      def context
+        KBuilder.data.to_struct(hash)
+      end
 
-      #   raise Webpack5::Builder::Error, "unknown package group: #{key}" if group.nil?
+      def get_group(key)
+        group = context.package_json.package_groups[key]
 
-      #   group
-      # end
+        raise KBuilder::PackageJson::Error, "unknown package group: #{key}" if group.nil?
+
+        group
+      end
     end
   end
 end
