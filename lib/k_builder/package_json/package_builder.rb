@@ -3,7 +3,7 @@
 module KBuilder
   module PackageJson
     # Configuration currently comes from KBuilder and stores template folders and target folders if configured
-    class PackageBuilder < KBuilder::Builder
+    class PackageBuilder < KBuilder::BaseBuilder
       SETTER_METHODS = %w[dependency_type].freeze
 
       # In memory representation of the package.json file that is being created

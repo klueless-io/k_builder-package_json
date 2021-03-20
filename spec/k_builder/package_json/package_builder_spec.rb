@@ -6,14 +6,15 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
 
   let(:samples_folder) { File.join(Dir.getwd, 'spec', 'samples') }
   let(:target_folder) { samples_folder }
-  let(:app_template_folder) { File.join(Dir.getwd, 'spec', 'samples', 'app-template') }
-  let(:global_template_folder) { File.join(Dir.getwd, 'spec', 'samples', 'global-template') }
+  let(:app_template_folder) { File.join(samples_folder, 'app-template') }
+  let(:global_template_folder) { File.join(samples_folder, 'global-template') }
 
   let(:cfg) do
     lambda { |config|
-      config.target_folder = target_folder
-      config.template_folder = app_template_folder
-      config.global_template_folder = global_template_folder
+      config.target_folders.add(:package, target_folder)
+
+      config.template_folders.add(:global , global_template_folder)
+      config.template_folders.add(:app , app_template_folder)
     }
   end
 
@@ -34,7 +35,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
     subject { builder }
 
     context 'with default configuration' do
-      it { is_expected.not_to be_nil }
+      fit { is_expected.not_to be_nil }
     end
 
     describe '.target_folder' do
