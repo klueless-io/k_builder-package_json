@@ -8,16 +8,9 @@ As a Javascript Developer, I want to automatically configure package.json with m
 
 ### Stories next on list
 
-As a Developer, I can DO_SOMETHING, so that I QUALITY_OF_LIFE
-
-- Subtask
+As a Javascript Developer, I want to automatically configure package.json with my defaults, so I can get up and running quickly
 
 ### Tasks next on list
-
-Setup RubyGems and RubyDoc
-
-- Build and deploy gem to [rubygems.org](https://rubygems.org/gems/k_builder-package_json)
-- Attach documentation to [rubydoc.info](https://rubydoc.info/github/to-do-/k_builder-package_json/master)
 
 Setup GitHub Action (test and lint)
 
@@ -27,6 +20,11 @@ Setup GitHub Action (test and lint)
 ## Stories and tasks
 
 ### Tasks - completed
+
+Setup RubyGems and RubyDoc
+
+- Build and deploy gem to [rubygems.org](https://rubygems.org/gems/k_builder-package_json)
+- Attach documentation to [rubydoc.info](https://rubydoc.info/github/to-do-/k_builder-package_json/master)
 
 Setup project management, requirement and SCRUM documents
 
