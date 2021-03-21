@@ -9,15 +9,6 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   let(:app_template_folder) { File.join(samples_folder, 'app-template') }
   let(:global_template_folder) { File.join(samples_folder, 'global-template') }
 
-  let(:cfg) do
-    lambda { |config|
-      config.target_folders.add(:package, target_folder)
-
-      config.template_folders.add(:global , global_template_folder)
-      config.template_folders.add(:app , app_template_folder)
-    }
-  end
-
   let(:yallist) { 'yallist' }
   let(:node_target_yallist) { File.join(builder.target_folder, 'node_modules', 'yallist') }
   let(:boolbase) { 'boolbase' }
@@ -31,11 +22,47 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
     builder_module.reset
   end
 
+  # Currently does not work, I wonder if I can get a default override for target
+  # folder?, does it even make sense
+  # shared_context 'no configuration' do
+  #   let(:cfg) do
+  #     lambda { |config|
+  #     }
+  #   end
+  # end
+
+  shared_context 'setup_temp_dir' do
+    include_context :use_temp_folder
+
+    let(:target_folder) { @temp_folder }
+  end
+
+  shared_context 'basic configuration' do
+    let(:cfg) do
+      lambda { |config|
+        config.target_folders.add(:package, target_folder)
+
+        # Default opinionated package groups
+        config.package_json.default_package_groups
+
+        # Custom package group
+        builder_module.configuration.package_json.set_package_group('xmen', 'Sample Packages', multiple_packages)
+
+        # If templates are needed
+        # config.template_folders.add(:global , global_template_folder)
+        # config.template_folders.add(:app , app_template_folder)
+
+      }
+    end
+  end
+
   describe '#initialize' do
     subject { builder }
 
-    context 'with default configuration' do
-      fit { is_expected.not_to be_nil }
+    include_context 'basic configuration'
+
+    context 'with basic configuration' do
+      it { is_expected.not_to be_nil }
     end
 
     describe '.target_folder' do
@@ -43,13 +70,13 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
       it { is_expected.to eq(target_folder) }
     end
 
-    describe '.template_folder' do
-      subject { builder.template_folder }
+    describe '#get_template_folder(:app)' do
+      subject { builder.get_template_folder(:app) }
       it { is_expected.to eq(app_template_folder) }
     end
 
-    describe '.global_template_folder' do
-      subject { builder.global_template_folder }
+    describe '#get_template_folder(:global)' do
+      subject { builder.get_template_folder(:global) }
       it { is_expected.to eq(global_template_folder) }
     end
 
@@ -72,6 +99,8 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   end
 
   context 'set context for production/development' do
+    include_context 'basic configuration'
+
     context 'when production' do
       before { builder.production }
 
@@ -100,7 +129,10 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   end
 
   describe '#parse_options' do
+    include_context 'basic configuration'
+
     subject { builder.parse_options(options).join(' ') }
+    
     let(:options) { nil }
 
     context 'when nil' do
@@ -150,10 +182,9 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   end
 
   describe '#npm_init' do
-    include_context :use_temp_folder
-
-    let(:target_folder) { @temp_folder }
-
+    include_context 'setup_temp_dir'
+    include_context 'basic configuration'
+  
     before :each do
       builder.npm_init
     end
@@ -202,10 +233,9 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   end
 
   describe '#npm_install' do
-    include_context :use_temp_folder
-
-    let(:target_folder) { @temp_folder }
-
+    include_context 'setup_temp_dir'
+    include_context 'basic configuration'
+  
     context 'when options are configured via builder' do
       subject { builder.package }
 
@@ -285,9 +315,8 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   end
 
   describe '#npm_add' do
-    include_context :use_temp_folder
-
-    let(:target_folder) { @temp_folder }
+    include_context 'setup_temp_dir'
+    include_context 'basic configuration'
 
     # adds dependency, but does not install
     subject { builder.package }
@@ -344,20 +373,11 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   end
 
   describe '#npm_add_group' do
-    include_context :use_temp_folder
-
-    let(:target_folder) { @temp_folder }
-
+    include_context 'setup_temp_dir'
+    include_context 'basic configuration'
+  
     # adds dependency, but does not install
     subject { builder.package }
-
-    let(:cfg) do
-      lambda { |config|
-        config.target_folder = target_folder
-        config.package_json.default_package_groups
-        config.package_json.set_package_group('xmen', 'Sample Packages', multiple_packages)
-      }
-    end
 
     context 'when options are configured via builder' do
       before :each do
@@ -398,19 +418,10 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   end
 
   describe '#npm_install_group' do
-    include_context :use_temp_folder
-
-    let(:target_folder) { @temp_folder }
-
+    include_context 'setup_temp_dir'
+    include_context 'basic configuration'
+  
     subject { builder.package }
-
-    let(:cfg) do
-      lambda { |config|
-        config.target_folder = target_folder
-        config.package_json.default_package_groups
-        config.package_json.set_package_group('xmen', 'Sample Packages', multiple_packages)
-      }
-    end
 
     context 'when options are configured via builder' do
       before :each do
@@ -429,7 +440,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
       end
     end
 
-    context 'when options are supplied manually' do
+    fcontext 'when options are supplied manually' do
       before :each do
         builder.npm_init
                .npm_install_group('xmen', options: options)
