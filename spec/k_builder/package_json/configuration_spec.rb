@@ -6,8 +6,13 @@ RSpec.describe KBuilder::PackageJson::Configuration do
   let(:instance) { builder_module.configuration }
 
   let(:custom_target_folder) { '~/my-target-folder' }
+  let(:expected_target_folder) { File.expand_path(custom_target_folder) }
+
   let(:custom_template_folder) { '~/my-template-folder' }
   let(:custom_global_template_folder) { '~/my-template-folder-global' }
+
+  let(:expected_template_folder) { File.expand_path(custom_template_folder) }
+  let(:expected_global_template_folder) { File.expand_path(custom_global_template_folder) }
 
   before :each do
     builder_module.configure(&cfg)
@@ -16,38 +21,59 @@ RSpec.describe KBuilder::PackageJson::Configuration do
     builder_module.reset
   end
 
-  context 'general configuration - inherited from KBuilder::Configuration' do
+  shared_context 'general configuration' do
     let(:cfg) do
       lambda { |config|
-        config.template_folder = custom_template_folder
-        config.template_folder = custom_template_folder
-        config.global_template_folder = custom_global_template_folder
+        config.target_folders.add(:app , custom_target_folder)
+
+        config.template_folders.add(:domain , custom_global_template_folder)
+        config.template_folders.add(:app    , custom_template_folder)
       }
     end
+  end
 
-    describe 'attributes' do
-      subject { instance }
+  # These baselines are inherited from KBuilder::Configuration
+  describe '.target_folders' do
+    subject { instance.target_folders.folders }
+
+    context 'when not configured' do
+      it { is_expected.to be_empty }
+    end
+
+    context 'when configured' do
+      include_context 'general configuration'
 
       it do
         is_expected
-          .to have_attributes(
-            target_folder: instance.target_folder,
-            template_folder: instance.template_folder,
-            global_template_folder: instance.global_template_folder
-          )
+          .to  include(app: expected_target_folder)
+      end
+    end
+  end
+
+  # These baselines are inherited from KBuilder::Configuration
+  describe '.template_folders' do
+    subject { instance.template_folders.folders }
+
+    context 'when not configured' do
+      it { is_expected.to be_empty }
+    end
+
+    context 'when configured' do
+      include_context 'general configuration'
+
+      it do
+        is_expected
+          .to  include(app: expected_template_folder)
       end
     end
   end
 
   context 'add package_json configuration' do
-    let(:cfg) do
-      lambda { |config|
-        config.template_folder = custom_template_folder
-        config.template_folder = custom_template_folder
-        config.global_template_folder = custom_global_template_folder
-        config.package_json.default_package_groups
-      }
-    end
+    include_context 'general configuration'
+
+    before {
+      instance.package_json.default_package_groups
+    }
 
     it { is_expected.to respond_to(:package_json) }
 
