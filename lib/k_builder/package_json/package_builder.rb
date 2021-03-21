@@ -4,10 +4,12 @@ module KBuilder
   module PackageJson
     # Configuration currently comes from KBuilder and stores template folders and target folders if configured
     class PackageBuilder < KBuilder::BaseBuilder
-      SETTER_METHODS = %w[dependency_type].freeze
-
       # In memory representation of the package.json file that is being created
       attr_writer :package
+
+      attr_reader :package_file
+      attr_accessor :dependency_type
+
 
       def initialize(configuration = nil)
         super(configuration)
@@ -16,25 +18,20 @@ module KBuilder
         set_dependency_type(:development)
       end
 
-      # Return an array of symbols to represent the fluent setter methods in this builder.
-      def builder_setter_methods
-        SETTER_METHODS
-      end
-
       # ----------------------------------------------------------------------
       # Fluent interface
       # ----------------------------------------------------------------------
 
       # Change context to production, new dependencies will be for production
       def production
-        set_dependency_type :production
+        set_dependency_type(:production)
 
         self
       end
 
       # Change context to development, new dependencies will be for development
       def development
-        set_dependency_type :development
+        set_dependency_type(:development)
 
         self
       end
@@ -189,11 +186,13 @@ module KBuilder
       # Dependency type
       # ----------------------------------------------------------------------
 
-      # Getter for dependency type
-      def dependency_type
-        hash['dependency_type']
-      end
+      # Fluent setter for target folder
+      def set_dependency_type(value)
+        self.dependency_type = value
 
+        self
+      end
+      
       # Target folder
       # ----------------------------------------------------------------------
 
@@ -206,13 +205,13 @@ module KBuilder
 
       # Setter for target folder
       def package_file=(_value)
-        hash['package_file'] = File.join(target_folder, 'package.json')
+        @package_file = File.join(target_folder, 'package.json')
       end
 
-      # Getter for target folder
-      def package_file
-        hash['package_file']
-      end
+      # # Getter for target folder
+      # def package_file
+      #   hash['package_file']
+      # end
 
       # -----------------------------------
       # Helpers
