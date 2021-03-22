@@ -5,11 +5,11 @@ module KBuilder
     # Configuration currently comes from KBuilder and stores template folders and target folders if configured
     class PackageBuilder < KBuilder::BaseBuilder
       # In memory representation of the package.json file that is being created
+
       attr_writer :package
 
       attr_reader :package_file
       attr_accessor :dependency_type
-
 
       def initialize(configuration = nil)
         super(configuration)
@@ -192,7 +192,7 @@ module KBuilder
 
         self
       end
-      
+
       # Target folder
       # ----------------------------------------------------------------------
 
@@ -258,7 +258,7 @@ module KBuilder
 
       # This is all wrong, but useful for now
       def context
-        KBuilder.data.to_struct(hash)
+        @context ||= KBuilder.data.to_struct(configuration)
       end
 
       def get_group(key)
