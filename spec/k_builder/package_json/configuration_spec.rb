@@ -71,9 +71,9 @@ RSpec.describe KBuilder::PackageJson::Configuration do
   context 'add package_json configuration' do
     include_context 'general configuration'
 
-    before {
+    before do
       instance.package_json.default_package_groups
-    }
+    end
 
     it { is_expected.to respond_to(:package_json) }
 
