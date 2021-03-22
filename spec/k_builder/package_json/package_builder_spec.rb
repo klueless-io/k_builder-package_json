@@ -48,10 +48,8 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
         # Custom package group
         builder_module.configuration.package_json.set_package_group('xmen', 'Sample Packages', multiple_packages)
 
-        # If templates are needed
-        # config.template_folders.add(:global , global_template_folder)
-        # config.template_folders.add(:app , app_template_folder)
-
+        config.template_folders.add(:global , global_template_folder)
+        config.template_folders.add(:app , app_template_folder)
       }
     end
   end
@@ -132,7 +130,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
     include_context 'basic configuration'
 
     subject { builder.parse_options(options).join(' ') }
-    
+
     let(:options) { nil }
 
     context 'when nil' do
@@ -184,7 +182,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   describe '#npm_init' do
     include_context 'setup_temp_dir'
     include_context 'basic configuration'
-  
+
     before :each do
       builder.npm_init
     end
@@ -235,7 +233,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   describe '#npm_install' do
     include_context 'setup_temp_dir'
     include_context 'basic configuration'
-  
+
     context 'when options are configured via builder' do
       subject { builder.package }
 
@@ -375,7 +373,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   describe '#npm_add_group' do
     include_context 'setup_temp_dir'
     include_context 'basic configuration'
-  
+
     # adds dependency, but does not install
     subject { builder.package }
 
@@ -420,7 +418,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
   describe '#npm_install_group' do
     include_context 'setup_temp_dir'
     include_context 'basic configuration'
-  
+
     subject { builder.package }
 
     context 'when options are configured via builder' do
@@ -440,7 +438,7 @@ RSpec.describe KBuilder::PackageJson::PackageBuilder do
       end
     end
 
-    fcontext 'when options are supplied manually' do
+    context 'when options are supplied manually' do
       before :each do
         builder.npm_init
                .npm_install_group('xmen', options: options)
