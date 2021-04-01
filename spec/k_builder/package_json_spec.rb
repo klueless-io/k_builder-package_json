@@ -10,3 +10,5 @@ RSpec.describe KBuilder::PackageJson do
       .to raise_error('some message')
   end
 end
+
+puts "KBuilder::PackageJson::Version: #{KBuilder::PackageJson::VERSION}" if ENV['KLUE_DEBUG']&.to_s&.downcase == 'true'
