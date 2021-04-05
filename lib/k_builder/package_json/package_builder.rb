@@ -258,7 +258,7 @@ module KBuilder
 
       # This is all wrong, but useful for now
       def context
-        @context ||= KBuilder.data.to_struct(configuration)
+        @context ||= KUtil.data.to_open_struct(configuration)
       end
 
       def get_group(key)
