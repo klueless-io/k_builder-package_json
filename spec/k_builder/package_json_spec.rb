@@ -11,7 +11,7 @@ RSpec.describe KBuilder::PackageJson do
   end
 end
 
-if ENV['KLUE_DEBUG']&.to_s&.downcase == 'true'
+if ENV.fetch('KLUE_DEBUG', 'false').downcase == 'true'
   namespace = 'KBuilder::PackageJson::Version'
   file_path = $LOADED_FEATURES.find { |f| f.include?('k_builder/package_json/version') }
   version   = KBuilder::PackageJson::VERSION.ljust(9)

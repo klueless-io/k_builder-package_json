@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# PackageJson::Configuration is extended from KBuilder::BaseConfiguration?
+# Why haven't I extend PackageJson::Configuration from KBuilder::Configuration?
 RSpec.describe KBuilder::PackageJson::Configuration do
   let(:builder_module) { KBuilder }
   let(:cfg) { ->(config) {} }

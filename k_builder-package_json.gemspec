@@ -39,4 +39,5 @@ Gem::Specification.new do |spec|
   # spec.extensions    = ['ext/k_builder_package_json/extconf.rb']
 
   spec.add_dependency 'k_builder', '~> 0.0'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

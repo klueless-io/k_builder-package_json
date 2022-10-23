@@ -6,13 +6,14 @@ module KBuilder
     PackageGroup = Struct.new(:key, :description, :package_names)
 
     # Configuration class
-    class Configuration < BaseConfiguration
-      attach_to(self, KBuilder::BaseConfiguration, :package_json)
+    # < BaseConfiguration
+    class Configuration
+      # attach_to(self, KBuilder::BaseConfiguration, :package_json)
 
       attr_accessor :package_groups
 
       def initialize
-        super()
+        # super()
         @package_groups = {}
       end
 
